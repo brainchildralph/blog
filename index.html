@@ -1,0 +1,63 @@
+---
+layout: basic
+---
+
+<div class="card-columns">
+  {% for post in paginator.posts %}
+  <div class="card">
+    {% if post.image.path %}
+    <a href="{{ post.url | prepend: site.baseurl }}">
+      <img class="card-img-top" src="{{ post.image.path | prepend: site.baseurl }}" alt="{{ post.title }}" title="{{ post.title }}" width="{{ post.image.width }}">
+    </a>
+    {% endif %}
+    <div class="card-body">
+      {% if post.title %}
+      <a href="{{ post.url | prepend: site.baseurl }}" class="text-info"><h4 class="card-title">{{ post.title }}</h4></a></p>
+      {% endif %}
+      {% if post.description %}
+      <p class="card-text">{{ post.description }}</p>
+      {% endif %}
+      {% if post.url %}
+      <p class="text-center"><a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-info">Read more</a></p>
+      {% endif %}
+      <nav class="nav">
+      {% if post.date %}
+        <div class="nav-link"><i class="fa fa-calendar" aria-hidden="true"></i><small class="text-muted"> {{ post.date | date: "%d/%m/%Y" }}</small></div>
+      {% endif %}
+      {% if post.tags %}
+        <div class="nav-link"><i class="fa fa-tags" aria-hidden="true"></i><small class="text-muted"> {{ post.categories | join: ', ' }}</small></div>
+      {% endif %}
+      </nav>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<nav aria-label="..." class="nav justify-content-center">
+  <ul class="pagination">
+    {% if paginator.previous_page %}
+    <li class="page-item active">
+      <a class="page-link text-info" href="{{ paginator.previous_page_path | prepend: site.baseurl }}" rel="prev">&laquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disable">
+      <span class="page-link text-info">&laquo;</span>
+    </li>
+    {% endif %}
+    <li class="page-item disable">
+      <span class="page-link text-info">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+    </li>
+    {% if paginator.next_page %}
+    <li class="page-item active">
+      <a class="page-link text-info" href="{{ paginator.next_page_path | prepend: site.baseurl }}" rel="prev">&raquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disable">
+      <span class="page-link text-info">&raquo;</span>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+<center>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">本站總訪問量<span id="busuanzi_value_site_pv"></span>次</span><span id="busuanzi_container_site_uv">訪客<span id="busuanzi_value_site_uv"></span>人</span>
+</center>
