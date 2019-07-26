@@ -1,8 +1,14 @@
 ---
 layout: basic
+navs:
+  Logo: 
+    name: 'Logo'
+    url: /web/nav/
+  Link1: 
+    name: '[Include Sample]'
+    url: /web/include/
+  Link2: 
+    name: '[Back Sample]'
+    url: /web/bach/
 ---
-<div class='container'>
-  <button class="btn btn-info">
-    <i class="fas fa-tv"></i>
-  </button>
-</div>
+{% include test/nav.html navs=page.navs %}

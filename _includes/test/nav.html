@@ -1,19 +1,6 @@
----
-layout: basic
-navs:
-  Logo: 
-    name: 'Logo'
-    url: /web/nav/
-  Link1: 
-    name: '[Include Sample]'
-    url: /web/include/
-  Link2: 
-    name: '[Back Sample]'
-    url: /web/back/
----
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <ul class="navbar-nav">
-{% for n in page.navs %}
+{% for n in include.navs %}
     <li class="nav-item active">
       <a class="nav-link" 
 	 href="{{ n[1].url | prepend: site.baseurl }}">
