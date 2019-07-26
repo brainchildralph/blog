@@ -1,0 +1,47 @@
+---
+layout: basic
+---
+
+<style id='testStyle'>
+div#em1 {
+  background: gray;
+  color: white;
+  font-size:16px;
+}
+div#em2 {
+  background: gray;
+  color: white;
+  font-size:16px;
+}
+</style>
+<div id='em1'>em1</div>
+<div id='em2'>em2</div>
+<script>
+m='div#em1'
+id='testStyle';
+function removeCssRule(id,str){
+  var re=new RegExp(str);
+  var loop=1;
+  while(loop){
+    var hunt=0;
+    var s=document.getElementById(id).sheet?
+      document.getElementById(id).sheet:
+      document.getElementById(id).styleSheet
+    var r=s.cssRules?s.cssRules:s.rules;
+    for(var i=0; i<r.length; i++){
+      if(r[i].cssText.match(re)){
+        console.log(`${i}: ${r[i].cssText}`);
+        hunt=1;
+        if(s.deleteRule){
+            s.deleteRule(i)
+        }else{
+            s.removeRule(i)
+        }
+        break;
+      }
+    }
+    if(hunt===0) loop=0
+  }
+}
+removeCssRule(id, m)
+</script>
