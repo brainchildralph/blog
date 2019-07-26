@@ -14,6 +14,9 @@ EOF
 }
 
 start(){
+  [ "${1}" == "fore" ] && (
+    bundle exec jekyll serve --host ${ip} --port ${port} --incremental 
+  ) && return 0
   start-stop-daemon -S -b -m -p ${pidfile} -d $(pwd) -x $(which bundle) -- exec jekyll serve --host ${ip} --port ${port} --incremental
   return $?
 }
@@ -25,15 +28,16 @@ stop(){
 
 case "$1" in
   start)
-    start
+    start ${@:2}
     ;;
   stop)
-    stop
+    stop ${@:2}
     ;;
   restart)
-    stop
+    rm -rf _site
+    stop ${@:2}
     sleep 1
-    start
+    start ${@:2}
     ;;
   *)
     usage	
