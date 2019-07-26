@@ -1,0 +1,25 @@
+---
+layout: basic
+navs:
+  Logo: 
+    name: 'Logo'
+    url: /web/nav
+  Link1: 
+    name: '[Include Sample]'
+    url: /web/include
+  Link1: 
+    name: '[Include Sample]'
+    url: /web/include
+---
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav">
+{% for n in page.navs %}
+    <li class="nav-item active">
+      <a class="nav-link" 
+	 href="{{ n[1].url | prepend: site.baseurl }}">
+         {{n[1].name}}
+      </a>
+    </li>
+{% endfor %}
+  </ul>
+</nav>
