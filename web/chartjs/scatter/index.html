@@ -25,7 +25,9 @@
 </head>
 <body class='container' ng-app='app' ng-controller='ctrl as vm' ng-cloak>
 {{ vm.title }}
-<canvas id="myChart"></canvas>
+<div width='400px' height='400px'>
+  <canvas id="myChart"></canvas>
+</div>
 <script>
 function getRandom(min,max,fixed){
   return parseFloat(((Math.random()*(max-min)).toFixed(fixed)))
@@ -40,14 +42,86 @@ function getRandom(min,max,fixed){
 <script>
   var canvas=document.getElementById('myChart');
   var ctx=canvas.getContext('2d');
-  var initLineConfig={
+  var config={
     //type:'line',
     type:'scatter',
     data:{
-      labels:['','',''],
-      datasets:[{label:'line 1',data:[]}]
+      labels:[],
+      datasets:[{
+        label:'line 1',
+	showLine:true,
+	fill:false,
+	lineTension:0,
+	pointRadius:0,
+	pointHitRadius:3,
+	borderColor:'rgba(87, 167, 134, 1)',
+	backgroundColor:'rgba(87, 167, 134, 0.5)',
+        pointHoverBackgroundColor:'rgba(87, 167, 134, 0.5)',
+	data:[ 
+	  { x: 1564641183575, y: 6.19 },
+	  { x: 1564641183675, y: 11.76 },
+	  { x: 1564641183775, y: 46.65 },
+	  { x: 1564641183875, y: 19.69 },
+	  { x: 1564641183975, y: 24.75 }]
+      }]
     },
     options:{
+      tooltips:{
+        displayColors:false,
+	/*
+        custom: function(tooltip) {
+	  if (!tooltip) return;
+	  // disable displaying the color box;
+	  tooltip.displayColors = false;
+	  console.log(tooltip);
+	},*/
+        callbacks: {
+          label: function(tooltipItem, data) {
+  	  var _d=new Date(tooltipItem.xLabel)
+            if(tooltipItem.index===0){
+              var _dStr=[]
+	      _dStr.push(`${_d.getFullYear()}/${("0"+(_d.getMonth()+1)).slice(-2)}/${("0"+_d.getDate()).slice(-2)}`);
+	      _dStr.push(`${("0"+_d.getHours()).slice(-2)}:${("0"+_d.getMinutes()).slice(-2)}`);
+	      _dStr.push(`${("0"+_d.getSeconds()).slice(-2)}.${("000"+_d.getMilliseconds()).slice(-3)}`)
+  	      return _dStr
+  	    }else{
+              var _dStr=[]
+	      _dStr.push(`${("0"+_d.getHours()).slice(-2)}:${("0"+_d.getMinutes()).slice(-2)}`);
+	      _dStr.push(`${("0"+_d.getSeconds()).slice(-2)}.${("000"+_d.getMilliseconds()).slice(-3)}`)
+  	      return _dStr
+  	    }
+          }
+        }
+      },
+      scales:{
+        xAxes:[{
+  	type:'linear',
+          ticks:{
+//  	    min:(d?(d[0]?d[0].x:undefined):undefined),
+//  	    max:(d?(d.length>1?d[d.length-1].x:undefined):undefined),
+            stepSize:100,
+            callback: function(v, i, vs) {
+              var _d=new Date(v);
+              if(i===0){
+                var _dStr=`${_d.getFullYear()}/${("0"+(_d.getMonth()+1)).slice(-2)}/${("0"+_d.getDate()).slice(-2)} ${("0"+_d.getHours()).slice(-2)}:${("0"+_d.getMinutes()).slice(-2)}:${("0"+_d.getSeconds()).slice(-2)}.${("000"+_d.getMilliseconds()).slice(-3)}`
+  	        return _dStr;
+  	      }else{
+                var _dStr=`${("0"+_d.getHours()).slice(-2)}:${("0"+_d.getMinutes()).slice(-2)}:${("0"+_d.getSeconds()).slice(-2)}.${("000"+_d.getMilliseconds()).slice(-3)}`
+  	        return _dStr;
+  	      }
+            }
+  	  },
+        }],
+        yAxes: [{
+          ticks: {
+  	  min:0,
+  	  max:100,
+            callback: function(value, index, values) {
+              return value + 'ºC';
+            }
+          }
+        }]
+      },
       responsive: true,
       animation: {
         duration: 0 // general animation time
@@ -58,8 +132,8 @@ function getRandom(min,max,fixed){
       responsiveAnimationDuration: 0 // animation duration after a resize
     }
   };
-  var myChart=new Chart(ctx, initLineConfig);
-  (function testLoop(){
+  var myChart=new Chart(ctx, config);
+  function testLoop(){
     s=myChart.data.datasets[0];
     s.fill=false;
     s.showLine=true;
@@ -116,7 +190,7 @@ function getRandom(min,max,fixed){
     setTimeout(()=>{
       testLoop();
     }, 3000)
-  })()
+  }
 </script>
 <script>
   var app=angular.module('app', ['ngMaterial']);
