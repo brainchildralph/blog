@@ -48,7 +48,7 @@ function getRandom(min,max,fixed){
     data:{
       labels:[],
       datasets:[{
-        label:'line 1',
+        label:'scatter chart',
 	showLine:true,
 	fill:false,
 	lineTension:0,
@@ -97,6 +97,9 @@ function getRandom(min,max,fixed){
         xAxes:[{
   	type:'linear',
           ticks:{
+            min: 1564641183500,
+	    max: 1564641184000,
+//          beginAtZero:true,
 //  	    min:(d?(d[0]?d[0].x:undefined):undefined),
 //  	    max:(d?(d.length>1?d[d.length-1].x:undefined):undefined),
             stepSize:100,
@@ -114,8 +117,8 @@ function getRandom(min,max,fixed){
         }],
         yAxes: [{
           ticks: {
-  	  min:0,
-  	  max:100,
+  	    min:0,
+  	    max:100,
             callback: function(value, index, values) {
               return value + 'ºC';
             }
